@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <title>Purchase History</title>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Purchase History</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Purchase Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% purchases.forEach(purchase => { %>
+          <tr>
+            <td><%= purchase.item_name %></td>
+            <td>$<%= purchase.item_price %></td>
+            <td><%= new Date(purchase.purchase_date).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

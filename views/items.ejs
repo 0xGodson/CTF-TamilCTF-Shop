@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">Items for Sale</h1>
+    <p>Balance: $<%= balance %></p>
+    <!-- <a href="/add-balance" class="btn btn-primary mb-3">Add Balance</a> -->
+    <a href="/redeem-coupon" class="btn btn-secondary mb-3">Redeem Coupon</a>
+    <a href="/purchases" class="btn btn-info mb-3">View Purchase History</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(item => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td>$<%= item.price %></td>
+            <td>
+              <form action="/purchase" method="POST" style="display:inline;">
+                <input type="hidden" name="itemId" value="<%= item.id %>">
+                <button type="submit" class="btn btn-success">Buy</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

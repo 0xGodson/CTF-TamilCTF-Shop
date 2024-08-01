@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Balance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">Add Balance</h1>
+    <p>Current Balance: $<%= balance %></p>
+    <form action="/add-balance" method="POST">
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" class="form-control" min="1" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Balance</button>
+    </form>
+  </div>
+</body>
+</html>
