@@ -39,13 +39,13 @@ db.serialize(() => {
         { id: 3, name: 'Mug', price: 10, value: 'TCTF{buy_the_flag_for_flag}' },
         { id: 4, name: 'Notebook', price: 5, value: 'TCTF{buy_the_flag_for_flag}' },
         { id: 5, name: 'Pen', price: 2, value: 'TCTF{buy_the_flag_for_flag}' },
-        { id: 6, name: 'Fake Flag', price: 0, value: 'TCTF{f4k3_flag}'}
+        { id: 6, name: 'Fake Flag', price: 0, value: 'TCTF{f4k3_flag}' }
     ];
 
     // items.forEach(item => {
     //     db.run('INSERT INTO items (name, price, value) VALUES (?, ?, ?)', [item.name, item.price, item.value]);
     // });
-    
+
     items.forEach(item => {
         db.get('SELECT * FROM items WHERE name = ?', [item.name], (err, row) => {
             if (!row) {
@@ -53,6 +53,13 @@ db.serialize(() => {
             }
         });
     });
+
+    // Create users table
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )`)
 
     // Add 'balance' column if not exists
     db.run(`ALTER TABLE users ADD COLUMN balance INTEGER DEFAULT 0`, (err) => {
@@ -79,9 +86,9 @@ db.serialize(() => {
     )`);
 
     // Insert sample coupons if they don't exist
-    db.get('SELECT * FROM coupons WHERE code = "DISCOUNT10"', (err, row) => {
+    db.get('SELECT * FROM coupons WHERE code = "FREE10DOLLARS"', (err, row) => {
         if (!row) {
-            db.run('INSERT INTO coupons (code, discount) VALUES (?, ?)', ['DISCOUNT10', 10]);
+            db.run('INSERT INTO coupons (code, discount) VALUES (?, ?)', ['FREE10DOLLARS', 10]);
         }
     });
 
@@ -213,15 +220,15 @@ app.get('/purchases', (req, res) => {
         flag_purchased = false
 
         purchases.forEach((purchase) => {
-            if (purchase['item_name'] == 'Flag'){
+            if (purchase['item_name'] == 'Flag') {
                 flag_purchased = true
             }
         })
 
-        if (flag_purchased){
+        if (flag_purchased) {
             return res.render('flag')
         }
-        
+
         res.render('purchases', { purchases });
     });
 });
@@ -272,7 +279,7 @@ app.post('/redeem-coupon', (req, res) => {
         return res.redirect('/login');
     }
 
-    const code  = req.body.couponCode;
+    const code = req.body.couponCode;
     console.log('Received coupon code:', code);
 
     db.get('SELECT * FROM coupons WHERE code = ?', [code], (err, coupon) => {
